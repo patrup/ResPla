@@ -1,5 +1,5 @@
 """
-Django settings for ResPlan project.
+Django settings for ResPla project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -48,9 +48,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'ResPlan.urls'
+ROOT_URLCONF = 'ResPla.urls'
 
-WSGI_APPLICATION = 'ResPlan.wsgi.application'
+WSGI_APPLICATION = 'ResPla.wsgi.application'
 
 
 # Database
