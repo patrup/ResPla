@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Ressourcen</title>
+</head>
+<body>
+<h1>Ressourcen</h1>
+
+{% if resource_list %}
+    <ul>
+    {% for resource in resource_list %}
+        <li>{{ resource.id }}: {{ resource.title }} - {{ resource.cost }} Euro pro Stunde</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Keine Resourcen angelegt!</p>
+{% endif %}
+
+</body>
+</html>

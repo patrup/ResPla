@@ -11,6 +11,13 @@ class IndexView(ListView):
     
     
 class AddResourceView(CreateView):
+    """Adds a new resource"""
+    #uses template resource_form.html
     model = Resource
     fields = ['title', 'cost']
     
+
+class ResourceListView(ListView):
+    
+    def get_queryset(self):
+        return Resource.objects.all()
