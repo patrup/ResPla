@@ -15,6 +15,7 @@ class AddResourceView(CreateView):
     #uses template resource_form.html
     model = Resource
     fields = ['title', 'cost']
+    success_url = '/planer/resource_list/'
     
 
 class ResourceListView(ListView):
