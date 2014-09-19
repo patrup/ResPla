@@ -26,7 +26,7 @@ class ResourceListView(ListView):
     
 class AddPersonView(CreateView):
     """Adds a new person"""
-    #uses template resource_form.html
+    #uses template person_form.html
     model = Person
     fields = ['first_name', 'last_name', 'cost']
     success_url = '/planer/person_list/'
@@ -36,4 +36,18 @@ class PersonListView(ListView):
     
     def get_queryset(self):
         return Person.objects.all()
+    
+
+class AddBookingView(CreateView):
+    """Adds a new booking"""
+    #uses template booking_form.html
+    model = Booking
+    fields = ['title', 'description']
+    success_url = '/planer/booking_list/'
+    
+
+class BookingListView(ListView):
+    
+    def get_queryset(self):
+        return Booking.objects.all()
     

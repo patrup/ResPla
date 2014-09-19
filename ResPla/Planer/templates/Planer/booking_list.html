@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Buchungen</title>
+</head>
+<body>
+<h1>Buchung</h1>
+{% if booking_list %}
+    <ul>
+    {% for booking in booking_list %}
+        <li>{{ booking.id }}: {{ booking.title }} {{ booking.description }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Keine Buchungen verf&uuml;gbar!</p>
+{% endif %}
+</body>
+</html>

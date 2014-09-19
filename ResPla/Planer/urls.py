@@ -8,4 +8,6 @@ urlpatterns = patterns(
     url(r'^resource_list/$', views.ResourceListView.as_view(), name='resource_list'),
     url(r'^person_add/$', views.AddPersonView.as_view(), name='person_add'),
     url(r'^person_list/$', views.PersonListView.as_view(), name='person_list'),
+    url(r'^booking_add/$', views.AddBookingView.as_view(), name='booking_add'),
+    url(r'^booking_list/$', views.BookingListView.as_view(), name='booking_list'),
     )

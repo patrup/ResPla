@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Neue Buchung</title>
+</head>
+<body>
+<h1>Neue Buchung</h1>
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Neu" />
+</form>
+</body>
+</html>
