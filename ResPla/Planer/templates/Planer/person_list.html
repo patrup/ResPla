@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Personen</title>
+</head>
+<body>
+<h1>Personen</h1>
+{% if person_list %}
+    <ul>
+    {% for person in person_list %}
+        <li>{{ person.id }}: {{ person.first_name }} {{ person.last_name }} - {{ person.cost }} Euro pro Stunde</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Keine Person angelegt!</p>
+{% endif %}
+</body>
+</html>
