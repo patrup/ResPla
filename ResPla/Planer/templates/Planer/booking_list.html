@@ -9,7 +9,7 @@
 {% if booking_list %}
     <ul>
     {% for booking in booking_list %}
-        <li>{{ booking.id }}: {{ booking.title }} {{ booking.description }}</li>
+        <li>{{ booking.id }}: {{ booking.title }} - {{ booking.description }} ( {{ booking.person }}, {{ booking.resource }} ) {{ booking.start_date }} - {{ booking.end_date }}</li>
     {% endfor %}
     </ul>
 {% else %}
