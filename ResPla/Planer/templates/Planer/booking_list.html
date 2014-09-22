@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF8">
 <title>Buchungen</title>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{%static 'Planer/css/jquery-ui.min.css' %}" />
+
+# <script src="{%static 'Planer/js/planer.js' %}"></script>
+<script src="{%static 'Planer/js/jquery-2.1.1.js' %}"></script>
+<script src="{%static 'Planer/js/jquery-ui.min.js' %}"></script>
+<script src="{%static 'Planer/js/jquery.min.js' %}"></script>
 </head>
 <body>
 <h1>Buchung</h1>
 {% if booking_list %}
     <ul>
     {% for booking in booking_list %}
-        <li>{{ booking.id }}: {{ booking.title }} {{ booking.description }}</li>
+        <li>{{ booking.id }}: {{ booking.title }}, {{ booking.description }}, {{booking.start_date}}</li>
     {% endfor %}
     </ul>
 {% else %}
-    <p>Keine Buchungen verf&uuml;gbar!</p>
+    <p>Keine Buchungen vorhanden!</p>
 {% endif %}
 </body>
 </html>
