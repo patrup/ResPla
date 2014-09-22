@@ -42,7 +42,7 @@ class AddBookingView(CreateView):
     """Adds a new booking"""
     #uses template booking_form.html
     model = Booking
-    fields = ['title', 'description']
+    fields = ['title', 'description', 'start_date', 'end_date', 'resource', 'person']
     success_url = '/planer/booking_list/'
     
 
