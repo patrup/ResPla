@@ -46,6 +46,22 @@ class AddBookingView(CreateView):
     success_url = '/planer/booking_list/'
     
 
+class AddPersonBookingView(CreateView):
+    """Books a person"""
+    #uses template booking_form.html
+    model = Booking
+    fields = ['title', 'description', 'start_date', 'end_date', 'person']
+    success_url = '/planer/booking_list/'
+    
+    
+class AddResourceBookingView(CreateView):
+    """Books a resource"""
+    #uses template booking_form.html
+    model = Booking
+    fields = ['title', 'description', 'start_date', 'end_date', 'resource']
+    success_url = '/planer/booking_list/'
+        
+
 class BookingListView(ListView):
     
     def get_queryset(self):
