@@ -16,7 +16,7 @@ class AddResourceView(CreateView):
     # uses template resource_form.html
     model = Resource
     fields = ['title', 'cost']
-    success_url = '/planer/resource_list/'
+    success_url = '/planer/list/resource/'
 
 
 class ResourceListView(ListView):
@@ -30,7 +30,7 @@ class AddPersonView(CreateView):
     # uses template person_form.html
     model = Person
     fields = ['first_name', 'last_name', 'cost']
-    success_url = '/planer/person_list/'
+    success_url = '/planer/list/person/'
 
 
 class PersonListView(ListView):
@@ -44,7 +44,7 @@ class AddPersonBookingView(CreateView):
     # uses template booking_form.html
     model = Booking
     fields = ['title', 'description', 'start_date', 'end_date', 'person']
-    success_url = '/planer/booking_list/'
+    success_url = '/planer/booking/list/recent'
 
 
 class AddResourceBookingView(CreateView):
@@ -52,7 +52,7 @@ class AddResourceBookingView(CreateView):
     # uses template booking_form.html
     model = Booking
     fields = ['title', 'description', 'start_date', 'end_date', 'resource']
-    success_url = '/planer/booking_list/'
+    success_url = '/planer/booking/list/recent'
 
 
 class BookingListAllView(ListView):
