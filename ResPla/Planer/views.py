@@ -1,3 +1,4 @@
+import datetime
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 from Planer.models import Resource, Booking, Person
@@ -54,7 +55,15 @@ class AddResourceBookingView(CreateView):
     success_url = '/planer/booking_list/'
 
 
-class BookingListView(ListView):
+class BookingListAllView(ListView):
 
     def get_queryset(self):
+        # shows all bookings:
         return Booking.objects.all()
+
+
+class BookingListRecentView(ListView):
+
+    def get_queryset(self):
+        # excludes all booking with an enddate before today
+        return Booking.objects.all().exclude(end_date__lte=datetime.datetime.now())

@@ -17,6 +17,8 @@ urlpatterns = patterns(
         name='book_person'),
     url(r'^book_resource/$', views.AddResourceBookingView.as_view(),
         name='book_respource'),
-    url(r'^booking_list/$', views.BookingListView.as_view(),
-        name='booking_list'),
+    url(r'^booking/list/all/$', views.BookingListAllView.as_view(),
+        name='booking_list_all'),
+    url(r'^booking/list/recent/$', views.BookingListRecentView.as_view(),
+        name='booking_list_recent'),
     )
