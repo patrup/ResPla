@@ -7,5 +7,32 @@
 <body>
 <h1>Resource Planer - Where is my fridge</h1>
 
+<ul>
+<li>
+<a href="{% url 'planer:resource_add' %}">Add Resource</a>
+</li>
+<li>
+<a href="{% url 'planer:resource_list' %}">List Resources</a>
+</li>
+<li>
+<a href="{% url 'planer:person_add' %}">Add Person</a>
+</li>
+<li>
+<a href="{% url 'planer:person_list' %}">List Persons</a>
+</li>
+<li>
+<a href="{% url 'planer:book_person' %}">Book a Person</a>
+</li>
+<li>
+<a href="{% url 'planer:book_resource' %}">Book a Resource</a>
+</li>
+<li>
+<a href="{% url 'planer:booking_list_all' %}">Show all Bookings</a>
+</li>
+<li>
+<a href="{% url 'planer:booking_list_recent' %}">Show recent Bookings</a>
+</li>
+</ul>
+
 </body>
 </html>
