@@ -21,4 +21,6 @@ urlpatterns = patterns(
         name='booking_list_all'),
     url(r'^booking/list/recent/$', views.BookingListRecentView.as_view(),
         name='booking_list_recent'),
+    url(r'^booking/book/available/resource/$',
+        views.BookResourceView.as_view(), name='book_available_resource'),
     )
