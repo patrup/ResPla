@@ -5,6 +5,12 @@ from django.db.models import Q
 from Planer.models import Resource, Booking, Person
 
 
+def get_available_persons(start_date, end_date):
+    q1 = Q(booking__start_date__range=(start_date, end_date))
+    q2 = Q(booking__end_date__range=(start_date, end_date))
+    return Person.objects.all().exclude(q1 | q2)
+
+
 class IndexView(ListView):
     template_name = 'Planer/index.html'
 
