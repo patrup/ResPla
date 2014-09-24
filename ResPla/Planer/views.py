@@ -1,6 +1,7 @@
 import datetime
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
+from django.db.models import Q
 from Planer.models import Resource, Booking, Person
 
 
@@ -25,6 +26,12 @@ class ResourceListView(ListView):
         return Resource.objects.all()
 
 
+class AvailableResourceListView(ListView):
+
+    def get_queryset(self):
+        return Resource.objects.all().filter(booking__start_date='2014-10-01')
+
+
 class AddPersonView(CreateView):
     """Adds a new person"""
     # uses template person_form.html
@@ -37,6 +44,14 @@ class PersonListView(ListView):
 
     def get_queryset(self):
         return Person.objects.all()
+
+
+class AvailablePersonListView(ListView):
+
+    def get_queryset(self):
+        sd = '2014-10-01'
+        ed = '2014-10-03'
+        return Person.objects.all().exclude(Q(booking__start_date__range=(sd, ed)) | Q(booking__end_date__range=(sd,ed)))
 
 
 class AddPersonBookingView(CreateView):
