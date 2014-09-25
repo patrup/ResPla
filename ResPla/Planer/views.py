@@ -66,9 +66,7 @@ class AvailablePersonListView(ListView):
     def get_queryset(self):
         sd = '2014-10-01'
         ed = '2014-10-03'
-        q1 = Q(booking__start_date__range=(sd, ed))
-        q2 = Q(booking__end_date__range=(sd, ed))
-        return Person.objects.all().exclude(q1 | q2)
+        return get_available_persons(sd, ed)
 
 
 class AddPersonBookingView(CreateView):
