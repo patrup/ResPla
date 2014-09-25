@@ -1,3 +1,4 @@
+# import pdb
 from django.test import TestCase
 from datetime import datetime
 
@@ -40,8 +41,30 @@ class ListAvailablePersonsTest(TestCase):
         self.assertFalse(franz_exists, "Franz should not be available!")
 
     def test_start_date_in_and_end_date_in_timespan(self):
+        # pdb.set_trace()
         start_date = datetime(2014, 10, 3)
         end_date = datetime(2014, 10, 4)
         available_persons = get_available_persons(start_date, end_date)
         franz_exists = available_persons.filter(first_name="Franz").exists()
         self.assertFalse(franz_exists, "Franz should not be available!")
+
+    def test_start_date_before_and_end_date_after_timespan(self):
+        start_date = datetime(2014, 10, 1)
+        end_date = datetime(2014, 10, 6)
+        available_persons = get_available_persons(start_date, end_date)
+        franz_exists = available_persons.filter(first_name="Franz").exists()
+        self.assertFalse(franz_exists, "Franz should not be available!")
+
+    def test_start_date_before_and_end_date_before_timespan(self):
+        start_date = datetime(2014, 10, 1)
+        end_date = datetime(2014, 10, 1)
+        available_persons = get_available_persons(start_date, end_date)
+        franz_exists = available_persons.filter(first_name="Franz").exists()
+        self.assertTrue(franz_exists, "Franz should be available!")
+
+    def test_start_date_after_and_end_date_after_timespan(self):
+        start_date = datetime(2014, 10, 6)
+        end_date = datetime(2014, 10, 10)
+        available_persons = get_available_persons(start_date, end_date)
+        franz_exists = available_persons.filter(first_name="Franz").exists()
+        self.assertTrue(franz_exists, "Franz should be available!")
