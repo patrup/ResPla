@@ -8,15 +8,16 @@ from Planer.models import Resource, Booking, Person
 def get_available_persons(start_date, end_date):
     q1 = Q(booking__start_date__range=(start_date, end_date))
     q2 = Q(booking__end_date__range=(start_date, end_date))
-    qset = get_available_persons_with_start_end_in_booking_span(start_date,
-                                                                    end_date)
+    qset = get_available_persons_inside_span(start_date, end_date)
     return qset.all().exclude(q1 | q2)
 
 
-def get_available_persons_with_start_end_in_booking_span(start_date,
-                                                             end_date):
-    q = Q(booking__start_date__lt=start_date) & Q(booking__end_date__gt=end_date)
-    return Person.objects.all().exclude(q)
+def get_available_persons_inside_span(start_date, end_date):
+    '''Gets all available persons with start_date and end_date
+    in booking time span'''
+    q1 = Q(booking__start_date__lt=start_date)
+    q2 = Q(booking__end_date__gt=end_date)
+    return Person.objects.all().exclude(q1 & q2)
 
 
 class IndexView(ListView):
@@ -65,7 +66,9 @@ class AvailablePersonListView(ListView):
     def get_queryset(self):
         sd = '2014-10-01'
         ed = '2014-10-03'
-        return Person.objects.all().exclude(Q(booking__start_date__range=(sd, ed)) | Q(booking__end_date__range=(sd,ed)))
+        q1 = Q(booking__start_date__range=(sd, ed))
+        q2 = Q(booking__end_date__range=(sd, ed))
+        return Person.objects.all().exclude(q1 | q2)
 
 
 class AddPersonBookingView(CreateView):
@@ -108,4 +111,5 @@ class BookingListRecentView(ListView):
 
     def get_queryset(self):
         # excludes all booking with an enddate before today
-        return Booking.objects.all().exclude(end_date__lte=datetime.datetime.now())
+        return Booking.objects.all()\
+            .exclude(end_date__lte=datetime.datetime.now())
