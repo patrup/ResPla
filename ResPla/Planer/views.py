@@ -8,7 +8,15 @@ from Planer.models import Resource, Booking, Person
 def get_available_persons(start_date, end_date):
     q1 = Q(booking__start_date__range=(start_date, end_date))
     q2 = Q(booking__end_date__range=(start_date, end_date))
-    return Person.objects.all().exclude(q1 | q2)
+    qset = get_available_persons_with_start_end_in_booking_span(start_date,
+                                                                    end_date)
+    return qset.all().exclude(q1 | q2)
+
+
+def get_available_persons_with_start_end_in_booking_span(start_date,
+                                                             end_date):
+    q = Q(booking__start_date__lt=start_date) & Q(booking__end_date__gt=end_date)
+    return Person.objects.all().exclude(q)
 
 
 class IndexView(ListView):

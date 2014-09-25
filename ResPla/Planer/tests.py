@@ -4,6 +4,7 @@ from datetime import datetime
 
 from Planer.models import Person, Booking
 from Planer.views import get_available_persons
+from Planer.views import get_available_persons_with_start_end_in_booking_span
 
 
 class ListAvailablePersonsTest(TestCase):
@@ -68,3 +69,10 @@ class ListAvailablePersonsTest(TestCase):
         available_persons = get_available_persons(start_date, end_date)
         franz_exists = available_persons.filter(first_name="Franz").exists()
         self.assertTrue(franz_exists, "Franz should be available!")
+
+    def test_available_persons_with_start_end_in_booking_span(self):
+        start_date = datetime(2014, 10, 3)
+        end_date = datetime(2014, 10, 4)
+        available_persons = get_available_persons_with_start_end_in_booking_span(start_date, end_date)
+        franz_exists = available_persons.filter(first_name="Franz").exists()
+        self.assertFalse(franz_exists, "Franz should not be available!")
