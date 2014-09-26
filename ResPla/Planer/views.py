@@ -2,6 +2,7 @@ import datetime
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 from django.db.models import Q
+from django.core.urlresolvers import reverse
 from Planer.models import Resource, Booking, Person
 
 
@@ -111,3 +112,21 @@ class BookingListRecentView(ListView):
         # excludes all booking with an enddate before today
         return Booking.objects.all()\
             .exclude(end_date__lte=datetime.datetime.now())
+
+
+class CreateTimeSpanView(ListView):
+    model = Person
+    template_name = 'Planer/book_person.html'
+
+    def get_queryset(self):
+        sd = '2014-10-07'
+        ed = '2014-10-13'
+        return get_available_persons(sd, ed)
+
+
+class ShowAvailablePersonsView(ListView):
+
+        def get_queryset(self):
+            sd = '2014-10-07'
+            ed = '2014-10-13'
+            return get_available_persons(sd, ed)

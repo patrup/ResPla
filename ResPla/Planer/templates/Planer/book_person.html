@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Person buchen</title>
+</head>
+<body>
+<h1>Person buchen</h1>
+{% if person_list %}
+    <ul>
+    {% for person in person_list %}
+        <li>{{ person.id }}: {{ person.first_name }} {{ person.last_name }} - {{ person.cost }} Euro pro Stunde</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Keine Person verf&uuml;gbar!</p>
+{% endif %}
+
+<form action="{% url 'planer:book_available_person' %}" method="post">
+{% csrf_token %}
+<p>Startzeit:<br><input name="start_date" type="text" size="30" maxlength="30"></p>
+<p>Endzeit:<br><input name="end_date" type="text" size="30" maxlength="40"></p>
+<input type="submit" value="Setze" />
+</form>
+
+</body>
+</html>

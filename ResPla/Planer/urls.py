@@ -28,4 +28,6 @@ urlpatterns = patterns(
         name='booking_list_recent'),
     url(r'^booking/book/available/resource/$',
         views.BookResourceView.as_view(), name='book_available_resource'),
+    url(r'^booking/book/available/person/$',
+        views.CreateTimeSpanView.as_view(), name='book_available_person'),
     )
