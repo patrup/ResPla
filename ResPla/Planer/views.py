@@ -1,7 +1,10 @@
 import datetime
 from django.views.generic.edit import CreateView
-from django.views.generic import ListView
+from django.views.generic import ListView, FormView, View
+from django.views.generic.detail import SingleObjectMixin
+
 from django.db.models import Q
+from django import forms
 from django.core.urlresolvers import reverse
 from Planer.models import Resource, Booking, Person
 
@@ -126,7 +129,51 @@ class CreateTimeSpanView(ListView):
 
 class ShowAvailablePersonsView(ListView):
 
-        def get_queryset(self):
+    def get_queryset(self):
+        sd = '2014-10-07'
+        ed = '2014-10-13'
+        return get_available_persons(sd, ed)
+
+
+class TimeSpanForm(forms.Form):
+    start_date = forms.DateTimeField()
+    end_date = forms.DateTimeField()
+
+
+class CreateBookingListView(ListView):
+    template_name = 'Planer/book_person.html'
+
+    def get_queryset(self):
+        if len(self.kwargs) == 0:
+            return Person.objects.all()
+        else:
             sd = '2014-10-07'
             ed = '2014-10-13'
             return get_available_persons(sd, ed)
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateBookingListView, self).get_context_data(**kwargs)
+        context['form'] = TimeSpanForm()
+        return context
+
+
+class CreateBookingFormView(SingleObjectMixin, FormView):
+    template_name = 'Planer/book_person.html'
+    form_class = TimeSpanForm
+    model = Booking
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super(CreateBookingFormView, self).post(request,
+                                                       *args, **kwargs)
+
+
+class CreateBookingView(View):
+
+    def get(self, request, *args, **kwargs):
+        view = CreateBookingListView.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = CreateBookingFormView.as_view()
+        return view(request, *args, **kwargs)
