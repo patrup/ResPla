@@ -1,7 +1,8 @@
 import datetime
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormMixin
 from django.views.generic import ListView, FormView, View
 from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.list import MultipleObjectMixin
 
 from django.db.models import Q
 from django import forms
@@ -127,21 +128,14 @@ class CreateTimeSpanView(ListView):
         return get_available_persons(sd, ed)
 
 
-class ShowAvailablePersonsView(ListView):
-
-    def get_queryset(self):
-        sd = '2014-10-07'
-        ed = '2014-10-13'
-        return get_available_persons(sd, ed)
-
-
 class TimeSpanForm(forms.Form):
     start_date = forms.DateTimeField()
     end_date = forms.DateTimeField()
 
 
-class CreateBookingListView(ListView):
+class ShowAvailablePersonsView(FormView):
     template_name = 'Planer/book_person.html'
+    form_class = TimeSpanForm
 
     def get_queryset(self):
         if len(self.kwargs) == 0:
@@ -152,18 +146,70 @@ class CreateBookingListView(ListView):
             return get_available_persons(sd, ed)
 
     def get_context_data(self, **kwargs):
+        return FormView.get_context_data(self, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return super(ShowAvailablePersonsView, self).get(request,
+                                                         *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return super(ShowAvailablePersonsView, self).post(request,
+                                                          *args, **kwargs)
+
+
+class CreateBookingListView(ListView, FormMixin):
+    template_name = 'Planer/book_person.html'
+    form_class = TimeSpanForm
+
+    def __init__(self):
+        self.sd = None
+        self.ed = None
+
+    def form_invalid(self, form):
+        return FormMixin.form_invalid(self, form)
+
+    def form_valid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+        # return FormMixin.form_invalid(self, form)
+        # return FormMixin.form_valid(self, form)
+
+    def get_queryset(self):
+        if self.sd is None:
+            return Person.objects.all()
+        else:
+            # sd = '2014-10-07'
+            # ed = '2014-10-13'
+            return get_available_persons(self.sd, self.ed)
+
+    def get_context_data(self, **kwargs):
         context = super(CreateBookingListView, self).get_context_data(**kwargs)
         context['form'] = TimeSpanForm()
         return context
 
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+            self.sd = request.POST['start_date']
+            self.ed = request.POST['end_date']
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+        # return super(CreateBookingListView, self).get(request, *args, **kwargs)
 
-class CreateBookingFormView(SingleObjectMixin, FormView):
+
+class CreateBookingFormView(MultipleObjectMixin, CreateView):
     template_name = 'Planer/book_person.html'
-    form_class = TimeSpanForm
+    # form_class = TimeSpanForm
     model = Booking
+    fields = ['start_date', 'end_date']
+
+    def get_queryset(self):
+        return Person.objects.all()
 
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
+        # self.object = self.get_object()
+        sd = request.POST['start_date']
         return super(CreateBookingFormView, self).post(request,
                                                        *args, **kwargs)
 
@@ -175,5 +221,5 @@ class CreateBookingView(View):
         return view(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        view = CreateBookingFormView.as_view()
+        view = CreateBookingListView.as_view()
         return view(request, *args, **kwargs)

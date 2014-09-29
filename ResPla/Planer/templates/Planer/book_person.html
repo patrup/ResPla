@@ -18,8 +18,7 @@
 
 <form action="{% url 'planer:book_available_person_test' %}" method="post">
 {% csrf_token %}
-<p>Startzeit:<br><input name="start_date" type="text" size="30" maxlength="30"></p>
-<p>Endzeit:<br><input name="end_date" type="text" size="30" maxlength="40"></p>
+    {{ form.as_p }}
 <input type="submit" value="Setze" />
 </form>
 
