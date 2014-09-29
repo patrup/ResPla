@@ -8,6 +8,7 @@ from django.db.models import Q
 from django import forms
 from django.core.urlresolvers import reverse
 from Planer.models import Resource, Booking, Person
+from django.views.generic.base import TemplateResponseMixin
 
 
 def get_available_persons(start_date, end_date):
@@ -169,7 +170,8 @@ class CreateBookingListView(ListView, FormMixin):
         return FormMixin.form_invalid(self, form)
 
     def form_valid(self, form):
-        return self.render_to_response(self.get_context_data(form=form))
+        context = self.get_context_data(form=form)
+        return self.render_to_response(context)
         # return FormMixin.form_invalid(self, form)
         # return FormMixin.form_valid(self, form)
 
@@ -219,6 +221,24 @@ class CreateBookingView(View):
     def get(self, request, *args, **kwargs):
         view = CreateBookingListView.as_view()
         return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = CreateBookingListView.as_view()
+        return view(request, *args, **kwargs)
+
+
+class BookAPersonView(MultipleObjectMixin, TemplateResponseMixin, View):
+    template_name = 'Planer/book_person.html'
+    form_class = TimeSpanForm
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateBookingListView, self).get_context_data(**kwargs)
+        context['form'] = TimeSpanForm()
+        return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         view = CreateBookingListView.as_view()
