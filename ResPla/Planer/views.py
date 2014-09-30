@@ -1,14 +1,10 @@
 import datetime
-from django.views.generic.edit import CreateView, FormMixin
-from django.views.generic import ListView, FormView, View
-from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.list import MultipleObjectMixin
+from django.views.generic.edit import CreateView
+from django.views.generic import ListView
 
 from django.db.models import Q
 from django import forms
-from django.core.urlresolvers import reverse
 from Planer.models import Resource, Booking, Person
-from django.views.generic.base import TemplateResponseMixin
 
 from django.shortcuts import render
 
