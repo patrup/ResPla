@@ -130,6 +130,8 @@ class CreateTimeSpanView(ListView):
 class TimeSpanForm(forms.Form):
     start_date = forms.DateTimeField()
     end_date = forms.DateTimeField()
+    persons = forms.ModelChoiceField(queryset=Person.objects.all(),
+                                     required=False)
 
 
 def book_a_person(request):
@@ -141,9 +143,20 @@ def book_a_person(request):
     if request.method == 'POST':
         form = TimeSpanForm(request.POST)
         if form.is_valid():
-            start_date = form.cleaned_data['start_date']
-            end_date = form.cleaned_data['end_date']
-            person_list = get_available_persons(start_date, end_date)
+            if form.cleaned_data['persons'] is not None:
+                person = form.cleaned_data['persons']
+                booking = Booking()
+                booking.person = person
+                booking.start_date = form.cleaned_data['start_date']
+                booking.end_date = form.cleaned_data['end_date']
+                booking.title = person.first_name + ' ' + person.last_name
+                booking.description = "Personenbuchung"
+                booking.save()
+                return render(request, 'Planer/index.html')
+            else:
+                start_date = form.cleaned_data['start_date']
+                end_date = form.cleaned_data['end_date']
+                person_list = get_available_persons(start_date, end_date)
         else:
             person_list = Person.objects.all()
         context = {'person_list': person_list, 'form': form}
