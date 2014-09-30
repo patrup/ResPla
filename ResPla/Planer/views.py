@@ -202,22 +202,6 @@ class CreateBookingListView(ListView, FormMixin):
         # return super(CreateBookingListView, self).get(request, *args, **kwargs)
 
 
-class CreateBookingFormView(MultipleObjectMixin, CreateView):
-    template_name = 'Planer/book_person.html'
-    # form_class = TimeSpanForm
-    model = Booking
-    fields = ['start_date', 'end_date']
-
-    def get_queryset(self):
-        return Person.objects.all()
-
-    def post(self, request, *args, **kwargs):
-        # self.object = self.get_object()
-        sd = request.POST['start_date']
-        return super(CreateBookingFormView, self).post(request,
-                                                       *args, **kwargs)
-
-
 def book_a_person(request):
     if request.method == 'GET':
         person_list = Person.objects.all()
