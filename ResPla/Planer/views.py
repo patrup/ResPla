@@ -229,18 +229,6 @@ class CreateBookingView(View):
         return view(request, *args, **kwargs)
 
 
-class BookAPersonView(CreateView):
-    template_name = 'Planer/book_person.html'
-    fields = ['start_date', 'end_date']
-
-    def get_queryset(self):
-        return Person.objects.all()
-
-    def get_context_data(self, **kwargs):
-        kwargs['person_list'] = Person.objects.all()
-        return super(BookAPersonView, self).get_context_data(**kwargs)
-
-
 def book_a_person(request):
     if request.method == 'GET':
         person_list = Person.objects.all()
