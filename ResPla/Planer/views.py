@@ -136,30 +136,6 @@ class TimeSpanForm(forms.Form):
     end_date = forms.DateTimeField()
 
 
-class ShowAvailablePersonsView(FormView):
-    template_name = 'Planer/book_person.html'
-    form_class = TimeSpanForm
-
-    def get_queryset(self):
-        if len(self.kwargs) == 0:
-            return Person.objects.all()
-        else:
-            sd = '2014-10-07'
-            ed = '2014-10-13'
-            return get_available_persons(sd, ed)
-
-    def get_context_data(self, **kwargs):
-        return FormView.get_context_data(self, **kwargs)
-
-    def get(self, request, *args, **kwargs):
-        return super(ShowAvailablePersonsView, self).get(request,
-                                                         *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return super(ShowAvailablePersonsView, self).post(request,
-                                                          *args, **kwargs)
-
-
 def book_a_person(request):
     if request.method == 'GET':
         person_list = Person.objects.all()
