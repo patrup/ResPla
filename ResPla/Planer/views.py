@@ -218,17 +218,6 @@ class CreateBookingFormView(MultipleObjectMixin, CreateView):
                                                        *args, **kwargs)
 
 
-class CreateBookingView(View):
-
-    def get(self, request, *args, **kwargs):
-        view = CreateBookingListView.as_view()
-        return view(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        view = CreateBookingListView.as_view()
-        return view(request, *args, **kwargs)
-
-
 def book_a_person(request):
     if request.method == 'GET':
         person_list = Person.objects.all()
