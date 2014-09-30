@@ -10,6 +10,8 @@ from django.core.urlresolvers import reverse
 from Planer.models import Resource, Booking, Person
 from django.views.generic.base import TemplateResponseMixin
 
+from django.shortcuts import render
+
 
 def get_available_persons(start_date, end_date):
     q1 = Q(booking__start_date__range=(start_date, end_date))
@@ -227,19 +229,31 @@ class CreateBookingView(View):
         return view(request, *args, **kwargs)
 
 
-class BookAPersonView(MultipleObjectMixin, TemplateResponseMixin, View):
+class BookAPersonView(CreateView):
     template_name = 'Planer/book_person.html'
-    form_class = TimeSpanForm
+    fields = ['start_date', 'end_date']
+
+    def get_queryset(self):
+        return Person.objects.all()
 
     def get_context_data(self, **kwargs):
-        context = super(CreateBookingListView, self).get_context_data(**kwargs)
-        context['form'] = TimeSpanForm()
-        return context
+        kwargs['person_list'] = Person.objects.all()
+        return super(BookAPersonView, self).get_context_data(**kwargs)
 
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        return self.render_to_response(context)
 
-    def post(self, request, *args, **kwargs):
-        view = CreateBookingListView.as_view()
-        return view(request, *args, **kwargs)
+def book_a_person(request):
+    if request.method == 'GET':
+        person_list = Person.objects.all()
+        form = TimeSpanForm()
+        context = {'person_list': person_list, 'form': form}
+        return render(request, 'Planer/book_person.html', context)
+    if request.method == 'POST':
+        form = TimeSpanForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+            person_list = get_available_persons(start_date, end_date)
+        else:
+            person_list = Person.objects.all()
+        context = {'person_list': person_list, 'form': form}
+        return render(request, 'Planer/book_person.html', context)
