@@ -157,6 +157,7 @@ def book_a_person(request):
                 start_date = form.cleaned_data['start_date']
                 end_date = form.cleaned_data['end_date']
                 person_list = get_available_persons(start_date, end_date)
+                form.fields['persons'].queryset = person_list
         else:
             person_list = Person.objects.all()
         context = {'person_list': person_list, 'form': form}
