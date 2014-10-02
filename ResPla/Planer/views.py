@@ -96,19 +96,6 @@ class AddResourceBookingView(CreateView):
     success_url = '/planer/booking/list/recent'
 
 
-class BookResourceView(CreateView):
-    """Books a resource if available
-
-    uses template booking_form.html
-    """
-    model = Booking
-    fields = ['title', 'description', 'start_date', 'end_date', 'resource']
-    success_url = '/planer/booking/list/recent'
-
-    def __init__(self, **kwargs):
-        CreateView.__init__(self, **kwargs)
-
-
 class BookingListAllView(ListView):
 
     def get_queryset(self):
