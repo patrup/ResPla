@@ -80,14 +80,6 @@ class PersonListView(ListView):
         return Person.objects.all()
 
 
-class AddPersonBookingView(CreateView):
-    """Books a person"""
-    # uses template booking_form.html
-    model = Booking
-    fields = ['title', 'description', 'start_date', 'end_date', 'person']
-    success_url = '/planer/booking/list/recent'
-
-
 class AddResourceBookingView(CreateView):
     """Books a resource"""
     # uses template booking_form.html
