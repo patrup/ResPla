@@ -124,16 +124,6 @@ class BookingListRecentView(ListView):
             .exclude(end_date__lte=datetime.datetime.now())
 
 
-class CreateTimeSpanView(ListView):
-    model = Person
-    template_name = 'Planer/book_person.html'
-
-    def get_queryset(self):
-        sd = '2014-10-07'
-        ed = '2014-10-13'
-        return get_available_persons(sd, ed)
-
-
 class PersonsTimeSpanForm(forms.Form):
     start_date = forms.DateTimeField()
     end_date = forms.DateTimeField()
