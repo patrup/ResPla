@@ -97,16 +97,16 @@ class AddResourceBookingView(CreateView):
 
 
 class BookResourceView(CreateView):
-    """Books a resource if available"""
-    # uses template booking_form.html
+    """Books a resource if available
+
+    uses template booking_form.html
+    """
     model = Booking
     fields = ['title', 'description', 'start_date', 'end_date', 'resource']
     success_url = '/planer/booking/list/recent'
 
     def __init__(self, **kwargs):
         CreateView.__init__(self, **kwargs)
-        # TODO: chatch the error
-        # self.fields[4].queryset = Resource.objects.all().filter(title__contains='u')
 
 
 class BookingListAllView(ListView):
