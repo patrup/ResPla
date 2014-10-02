@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Ressource buchen</title>
+</head>
+<body>
+<h1>Ressource buchen</h1>
+{% if resource_list %}
+    <ul>
+    {% for resource in resource_list %}
+        <li>{{ resource.id }}: {{ resource.title }} - {{ resource.cost }} Euro pro Stunde</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Keine Ressource verf&uuml;gbar!</p>
+{% endif %}
+
+<form action="{% url 'planer:book_available_resource' %}" method="post">
+{% csrf_token %}
+    {{ form.as_p }}
+<input type="submit" value="Filtern/Buchen" />
+</form>
+
+</body>
+</html>
