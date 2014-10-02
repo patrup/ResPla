@@ -65,14 +65,6 @@ class PersonListView(ListView):
         return Person.objects.all()
 
 
-class AvailablePersonListView(ListView):
-
-    def get_queryset(self):
-        sd = '2014-10-01'
-        ed = '2014-10-03'
-        return get_available_persons(sd, ed)
-
-
 class AddPersonBookingView(CreateView):
     """Books a person"""
     # uses template booking_form.html
