@@ -97,6 +97,7 @@ class AddResourceBookingView(CreateView):
 
 
 class BookingListAllView(ListView):
+    ''' Lists all bookings. '''
 
     def get_queryset(self):
         # shows all bookings:
@@ -104,6 +105,10 @@ class BookingListAllView(ListView):
 
 
 class BookingListRecentView(ListView):
+    ''' Lists the recent bookings.
+
+    i.e.: resources/persons booked for a start time later or equal than now.
+    '''
 
     def get_queryset(self):
         # excludes all booking with an enddate before today
