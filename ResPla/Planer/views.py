@@ -107,13 +107,6 @@ class PersonsTimeSpanForm(forms.Form):
                                      required=False)
 
 
-class ResourceTimeSpanForm(forms.Form):
-    start_date = forms.DateTimeField()
-    end_date = forms.DateTimeField()
-    resources = forms.ModelChoiceField(queryset=Resource.objects.all(),
-                                       required=False)
-
-
 def book_a_person(request):
     ''' books an available person '''
     if request.method == 'GET':
@@ -143,6 +136,13 @@ def book_a_person(request):
             person_list = Person.objects.all()
         context = {'person_list': person_list, 'form': form}
         return render(request, 'Planer/book_person.html', context)
+
+
+class ResourceTimeSpanForm(forms.Form):
+    start_date = forms.DateTimeField()
+    end_date = forms.DateTimeField()
+    resources = forms.ModelChoiceField(queryset=Resource.objects.all(),
+                                       required=False)
 
 
 def book_a_resource(request):
